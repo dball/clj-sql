@@ -1,14 +1,10 @@
 # clj-sql
 
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
+An experiment in approaching a simpler and more coherent sql abstraction.
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2014 Donald Ball
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
