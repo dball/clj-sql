@@ -38,8 +38,9 @@
          (.setReadOnly conn old-read-only))))))
 
 (defn abduce
-  [f init tx query]
-  (let [conn (.conn tx)]
+  [xform f init tx query]
+  (let [f (xform f)
+        conn (.conn tx)]
     (when (.isClosed conn)
       (throw (IllegalStateException. "The transaction's connection is closed")))
     (with-open [st (.createStatement conn)
@@ -54,7 +55,13 @@
               (if (reduced? ret)
                 @ret
                 (recur ret)))
-            ret))))))
+            (f ret)))))))
 
-(def fetch
-  (partial abduce conj []))
+(defn fetch
+  ([tx query]
+     (abduce identity conj [] tx query))
+  ([xform tx query]
+     (abduce xform conj [] tx query)))
+
+(comment
+  (transact! conn #(fetch (take 2) % "SELECT * FROM clients") {}))
