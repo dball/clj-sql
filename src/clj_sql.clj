@@ -64,4 +64,10 @@
      (abduce xform conj [] tx query)))
 
 (comment
-  (transact! conn #(fetch (take 2) % "SELECT * FROM clients") {}))
+  (transact! conn #(fetch (take 2) % "SELECT * FROM clients") {})
+  (sql '[:mysql/select
+         :table "memberships"
+         :where (= ?id "id")
+         :lock :write]
+       {:id 5})
+  ["SELECT * FROM memberships WHERE id = ? FOR UPDATE" 5])))
