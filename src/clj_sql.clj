@@ -53,7 +53,7 @@
           (if (.next rs)
             (let [ret (f ret (next-record-fn))]
               (if (reduced? ret)
-                @ret
+                (f @ret)
                 (recur ret)))
             (f ret)))))))
 
@@ -70,4 +70,4 @@
          :where (= ?id "id")
          :lock :write]
        {:id 5})
-  ["SELECT * FROM memberships WHERE id = ? FOR UPDATE" 5])))
+  ["SELECT * FROM memberships WHERE id = ? FOR UPDATE" 5])
